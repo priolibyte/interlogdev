@@ -7,6 +7,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 
 <style>
 
@@ -298,17 +299,22 @@ input, textarea, select{
     <div class="grid">
         <div class="card">
             <img src="https://cdn-icons-png.flaticon.com/512/3225/3225464.png">
-            <p>Colete Refletivo</p>
+            <p>
+
+    Colete Refletivo
+</p>
         </div>
         <div class="card">
             <img src="https://cdn-icons-png.flaticon.com/512/3701/3701616.png">
-            <p>Calçado de Segurança ou Fechado</p>
+            <p>
+    
+    Calçado de Segurança ou Fechado
+</p>
         </div>
     </div>
 </section>
 
 <section class="section">
-        <h2>SPCI - Sistema de Proteção Contra Incêndios</h2>
         <div class="grid">
             <div class="card"><img src="https://images.vexels.com/media/users/3/260480/isolated/preview/b7997294375c98aa550161c379351f35-pessoas-de-emergencia-do-bombeiro.png"><p>Brigada de Emergência</p></div>
             <div class="card"><img src="https://images.vexels.com/media/users/3/149784/isolated/preview/b238e92996b923daca08a1b4607c9555-ilustracao-de-hidrante.png"><p>Hidrantes</p></div>
@@ -329,6 +335,8 @@ input, textarea, select{
             <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/2282/2282303.png"><p>Proibido Fumar</p></div>
             <div class="card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgBi1qh3N2iiNIUy0ldUrtAU2EQ5Hw55mkvg&s"><p>Faróis Acesos</p></div>
             <div class="card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQDnVTmorQ6f76Ed4_4G6nRb1tfxgJXBdHtw&s"><p>Coleta Seletiva</p></div>
+            <div class="card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT33kNtg9RjAygWxox7Jhp2tvJBE2-d8RwOGQ&s"><p>Calço nos pneus</p></div>
+            <div class="card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg8CIGLdVC3G1_PDVQzPczRdAhgw1imFOapA&s"><p>Bebidas alcoolicas</p></div>
         </div>
     </section>
     <div class="alert-box">
@@ -412,23 +420,57 @@ async function gerarCertificado(){
     const doc = new jsPDF();
     const data = new Date().toLocaleString();
 
-    doc.setFontSize(18);
-    doc.text("CERTIFICADO DE CONCORDANCIA", 105, 30, null, null, "center");
+    const conteudoQR = `
+CERTIFICADO INTERLOG
+Nome: ${nome}
+CPF: ${cpf}
+Placa: ${placa}
+Data: ${data}
+    `;
 
-    doc.setFontSize(12);
-    doc.text(`A INTERLOG SOLUCOES LOGISTICAS certifica que:`, 20, 60);
-    doc.text(`${nome}`, 20, 70);
-    doc.text(`CPF: ${cpf}`, 20, 85);
-    doc.text(`Placa: ${placa}`, 20, 95);
-    doc.text("Declara ter lido e concordado com todas as regras", 20, 115);
-    doc.text("de seguranca, saude e meio ambiente da empresa.", 20, 125);
-    doc.text(`Data e Hora: ${data}`, 20, 145);
+    try {
 
-    doc.save(`Certificado_${nome}.pdf`);
+        // Gerar QR usando API externa
+        const urlQR = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" 
+                      + encodeURIComponent(conteudoQR);
 
-    document.getElementById("modalFormulario").style.display = "none";
+        const response = await fetch(urlQR);
+        const blob = await response.blob();
 
-    alert("Certificado gerado com sucesso!");
+        const reader = new FileReader();
+
+        reader.onloadend = function() {
+
+            const base64data = reader.result;
+
+            doc.setFontSize(18);
+            doc.text("CERTIFICADO DE CONCORDANCIA", 105, 30, null, null, "center");
+
+            doc.setFontSize(12);
+            doc.text("A INTERLOG SOLUCOES LOGISTICAS certifica que:", 20, 60);
+            doc.text(nome, 20, 70);
+            doc.text(`CPF: ${cpf}`, 20, 85);
+            doc.text(`Placa: ${placa}`, 20, 95);
+            doc.text("Declara ter lido e concordado com todas as regras", 20, 115);
+            doc.text("de seguranca, saude e meio ambiente da empresa.", 20, 125);
+            doc.text(`Data e Hora: ${data}`, 20, 145);
+
+            // Inserir QR no PDF
+            doc.addImage(base64data, "PNG", 150, 60, 40, 40);
+
+            doc.save(`Certificado_${nome}.pdf`);
+
+            document.getElementById("modalFormulario").style.display = "none";
+
+            alert("Certificado gerado com sucesso!");
+        };
+
+        reader.readAsDataURL(blob);
+
+    } catch(error){
+        console.error("Erro ao gerar QR:", error);
+        alert("Erro ao gerar QR Code.");
+    }
 }
 
 </script>
