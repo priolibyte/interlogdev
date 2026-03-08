@@ -283,6 +283,16 @@ button:hover{
 </section>
 
 <section class="section">
+    <h2>Em Caso de Emergência</h2>
+    <ul>
+        <li>Mantenha-se calmo.</li>
+        <li>Não se exponha ao perigo.</li>
+        <li>Dirija-se ao ponto de encontro.</li>
+        <li>Aguarde instruções.</li>
+    </ul>
+</section>
+
+<section class="section">
     <button onclick="tentarAbrirModal()">Confirmo que li as regras</button>
     <p id="avisoLeitura" style="color: #ff4b2b; margin-top: 15px; display: none; font-weight: bold;">
         ⚠️ ATENÇÃO: Você precisa abrir e confirmar os 18 cards acima antes de prosseguir!
@@ -292,7 +302,7 @@ button:hover{
 <footer>
     Setores de Apoio: Portaria | Administração | Segurança do Trabalho
     <br><br>
-    <div><a href="https://www.allsecti.xyz" target="_blank">AllSec TI, Versão 1.3 teste</a></div>
+    <div><a href="https://www.allsecti.xyz" target="_blank">AllSec TI, Versão 1.4 teste</a></div>
 </footer>
 
 <div class="modal-leitura" id="modalLeitura">
@@ -323,7 +333,6 @@ let cardsLidos = new Set();
 let cardAtualElemento = null;
 let cardAtualId = null;
 
-// Animação de entrada
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if(entry.isIntersecting) entry.target.classList.add('show');
@@ -332,15 +341,11 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.card').forEach(card => observer.observe(card));
 
-// Função para abrir o "Leia aqui" individual
 function abrirLeitura(elemento, id) {
     cardAtualElemento = elemento;
     cardAtualId = id;
-    
-    // Pega o título do <p> e o texto do atributo data-texto
     const titulo = elemento.querySelector('p').innerText;
     const descricao = elemento.getAttribute('data-texto');
-
     document.getElementById("regraTitulo").innerText = titulo;
     document.getElementById("regraDescricao").innerText = descricao;
     document.getElementById("checkLeitura").checked = false;
@@ -351,7 +356,6 @@ function confirmarLeitura() {
     if(document.getElementById("checkLeitura").checked) {
         cardsLidos.add(cardAtualId);
         cardAtualElemento.classList.add('lido');
-        
         setTimeout(() => {
             document.getElementById("modalLeitura").style.display = "none";
             if(cardsLidos.size === totalCards) {
@@ -383,10 +387,17 @@ async function gerarCertificado(){
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    const data = new Date().toLocaleString();
+    
+    // Cálculo de datas
+    const hoje = new Date();
+    const dataEmissao = hoje.toLocaleString('pt-BR');
+    
+    const validade = new Date();
+    validade.setDate(hoje.getDate() + 90); // Soma 90 dias
+    const dataValidade = validade.toLocaleDateString('pt-BR');
 
     try {
-        const conteudoQR = `INTERLOG CERT\nNome: ${nome}\nCPF: ${cpf}\nPlaca: ${placa}\nData: ${data}`;
+        const conteudoQR = `INTERLOG CERT\nNome: ${nome}\nCPF: ${cpf}\nPlaca: ${placa}\nEmissao: ${dataEmissao}\nValidade: ${dataValidade}`;
         const urlQR = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(conteudoQR);
         const response = await fetch(urlQR);
         const blob = await response.blob();
@@ -396,13 +407,21 @@ async function gerarCertificado(){
             const base64data = reader.result;
             doc.setFontSize(18);
             doc.text("CERTIFICADO DE CONCORDANCIA", 105, 30, null, null, "center");
+            
             doc.setFontSize(12);
             doc.text(`Nome: ${nome}`, 20, 70);
-            doc.text(`CPF: ${cpf}`, 20, 85);
-            doc.text(`Placa: ${placa}`, 20, 95);
-            doc.text(`Data: ${data}`, 20, 105);
-            doc.text("Declarou ciência de todas as normas de segurança.", 20, 125);
-            doc.addImage(base64data, "PNG", 150, 60, 40, 40);
+            doc.text(`CPF: ${cpf}`, 20, 80);
+            doc.text(`Placa: ${placa}`, 20, 90);
+            
+            doc.setFont("helvetica", "bold");
+            doc.text(`Data de Emissao: ${dataEmissao}`, 20, 110);
+            doc.text(`VALIDO ATE: ${dataValidade}`, 20, 120);
+            
+            doc.setFont("helvetica", "normal");
+            doc.text("Declarou ciência de todas as normas de segurança.", 20, 140);
+            doc.text("Certificado obrigatorio para permanencia na INTERLOG.", 20, 150);
+            
+            doc.addImage(base64data, "PNG", 150, 65, 40, 40);
             doc.save(`Certificado_${nome}.pdf`);
             document.getElementById("modalFormulario").style.display = "none";
             alert("Certificado gerado com sucesso!");
