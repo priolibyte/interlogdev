@@ -80,6 +80,7 @@ h1{
     transform: translateY(40px);
     cursor: pointer;
     position: relative;
+    border: 2px solid transparent;
 }
 
 .card.show{
@@ -89,7 +90,7 @@ h1{
 
 .card.lido{
     border: 2px solid #00c6ff;
-    background: rgba(0,198,255,0.1);
+    background: rgba(0,198,255,0.15);
 }
 
 .card:hover{
@@ -142,7 +143,7 @@ button:hover{
     transform:scale(1.05);
 }
 
-/* Modal */
+/* Modais */
 .modal, .modal-leitura{
     display:none;
     position:fixed;
@@ -150,7 +151,7 @@ button:hover{
     left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.85);
+    background:rgba(0,0,0,0.9);
     justify-content:center;
     align-items:center;
     z-index:9999;
@@ -162,7 +163,7 @@ button:hover{
     padding:30px;
     border-radius:15px;
     width:90%;
-    max-width:400px;
+    max-width:450px;
     text-align:center;
     animation:fadeDown 0.5s ease;
 }
@@ -176,13 +177,16 @@ button:hover{
 }
 
 .checkbox-leitura {
-    margin-top: 20px;
+    margin-top: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    font-weight: bold;
+    gap: 12px;
+    font-weight: 700;
     cursor: pointer;
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
 }
 
 .checkbox-leitura input {
@@ -206,8 +210,6 @@ button:hover{
     .grid{ grid-template-columns: 1fr; }
     button{ width:100%; }
 }
-
-button, .card{ -webkit-tap-highlight-color: transparent; }
 </style>
 </head>
 
@@ -226,11 +228,11 @@ button, .card{ -webkit-tap-highlight-color: transparent; }
 <section class="section">
     <h2>EPIs Obrigatórios</h2>
     <div class="grid">
-        <div class="card" onclick="abrirLeitura(this, 1)">
+        <div class="card" onclick="abrirLeitura(this, 1)" data-texto="O uso do colete refletivo é obrigatório em todas as áreas operacionais para garantir sua visibilidade.">
             <img src="https://cdn-icons-png.flaticon.com/512/3225/3225464.png">
             <p>Colete Refletivo</p>
         </div>
-        <div class="card" onclick="abrirLeitura(this, 2)">
+        <div class="card" onclick="abrirLeitura(this, 2)" data-texto="Utilize sempre calçados de segurança com biqueira ou calçados totalmente fechados. Chinelos são proibidos.">
             <img src="https://cdn-icons-png.flaticon.com/512/3701/3701616.png">
             <p>Calçado de Segurança ou Fechado</p>
         </div>
@@ -239,27 +241,27 @@ button, .card{ -webkit-tap-highlight-color: transparent; }
 
 <section class="section">
     <div class="grid">
-        <div class="card" onclick="abrirLeitura(this, 3)"><img src="https://images.vexels.com/media/users/3/260480/isolated/preview/b7997294375c98aa550161c379351f35-pessoas-de-emergencia-do-bombeiro.png"><p>Brigada de Emergência</p></div>
-        <div class="card" onclick="abrirLeitura(this, 4)"><img src="https://images.vexels.com/media/users/3/149784/isolated/preview/b238e92996b923daca08a1b4607c9555-ilustracao-de-hidrante.png"><p>Hidrantes</p></div>
-        <div class="card" onclick="abrirLeitura(this, 5)"><img src="https://images.vexels.com/media/users/3/149782/isolated/preview/b3b92c7bbd2df4186cb8c7ac0b6ec87e-ilustracao-de-extintor-de-incendio.png"><p>Extintores</p></div>
-        <div class="card" onclick="abrirLeitura(this, 6)"><img src="https://img.pikbest.com/png-images/20240926/high-quality-red-siren-light-png--e2-80-93-isolated-on-transparent-background_10889719.png!sw800"><p>Sirene</p></div>
-        <div class="card" onclick="abrirLeitura(this, 7)"><img src="https://www.renglan.com.br/Botoeira%20prova%20de%20tempo/bq%20611%20fotos/Botoeira-prova-tempo-RE611-aut--vermelha-renglan.png"><p>Botoeiras</p></div>
-        <div class="card" onclick="abrirLeitura(this, 8)"><img src="https://inbraep.com.br/_v1/assets/img/1/PS_1080p_INBRAEP.png"><p>Primeiros Socorros</p></div>
+        <div class="card" onclick="abrirLeitura(this, 3)" data-texto="Identifique os membros da brigada pelos capacetes/coletes diferenciados em caso de emergência."><img src="https://images.vexels.com/media/users/3/260480/isolated/preview/b7997294375c98aa550161c379351f35-pessoas-de-emergencia-do-bombeiro.png"><p>Brigada de Emergência</p></div>
+        <div class="card" onclick="abrirLeitura(this, 4)" data-texto="Mantenha os hidrantes sempre desobstruídos. Não estacione próximo a eles."><img src="https://images.vexels.com/media/users/3/149784/isolated/preview/b238e92996b923daca08a1b4607c9555-ilustracao-de-hidrante.png"><p>Hidrantes</p></div>
+        <div class="card" onclick="abrirLeitura(this, 5)" data-texto="Verifique a localização dos extintores mais próximos ao seu veículo."><img src="https://images.vexels.com/media/users/3/149782/isolated/preview/b3b92c7bbd2df4186cb8c7ac0b6ec87e-ilustracao-de-extintor-de-incendio.png"><p>Extintores</p></div>
+        <div class="card" onclick="abrirLeitura(this, 6)" data-texto="Ao ouvir a sirene contínua, dirija-se imediatamente ao Ponto de Encontro."><img src="https://img.pikbest.com/png-images/20240926/high-quality-red-siren-light-png--e2-80-93-isolated-on-transparent-background_10889719.png!sw800"><p>Sirene</p></div>
+        <div class="card" onclick="abrirLeitura(this, 7)" data-texto="As botoeiras de alarme devem ser usadas apenas em caso de incêndio real ou acidente grave."><img src="https://www.renglan.com.br/Botoeira%20prova%20de%20tempo/bq%20611%20fotos/Botoeira-prova-tempo-RE611-aut--vermelha-renglan.png"><p>Botoeiras</p></div>
+        <div class="card" onclick="abrirLeitura(this, 8)" data-texto="Em caso de mal-estar ou ferimento, procure o setor de Primeiros Socorros imediatamente."><img src="https://inbraep.com.br/_v1/assets/img/1/PS_1080p_INBRAEP.png"><p>Primeiros Socorros</p></div>
     </div>
 
     <section class="section">
         <h2>Regras Gerais</h2>
         <div class="grid">
-            <div class="card" onclick="abrirLeitura(this, 9)"><img src="https://static.vecteezy.com/system/resources/previews/048/234/438/non_2x/speed-limit-20-round-road-traffic-icon-flat-design-png.png"><p>Velocidade Máxima 20km/h</p></div>
-            <div class="card" onclick="abrirLeitura(this, 10)"><img src="https://isinaliza.vtexassets.com/arquivos/ids/186766-800-auto?v=636983773358030000&width=800&height=auto&aspect=true"><p>Respeite as Sinalizações</p></div>
-            <div class="card" onclick="abrirLeitura(this, 11)"><img src="https://cdn-icons-png.flaticon.com/512/10745/10745527.png"><p>Use Cinto de Segurança</p></div>
-            <div class="card" onclick="abrirLeitura(this, 12)"><img src="https://cdn.awsli.com.br/600x450/2103/2103292/produto/135124146/7913046964.jpg"><p>Uso obrigatório de Calços</p></div>
-            <div class="card" onclick="abrirLeitura(this, 13)"><img src="https://images.tcdn.com.br/img/img_prod/723720/proibido_entrar_neste_ambiente_vestindo_bon_berm_1_20250723110848_510cb1d87a53.jpg"><p>Proibido Boné, Regata, Bermudas e Chinelo</p></div>
-            <div class="card" onclick="abrirLeitura(this, 14)"><img src="https://cdn-icons-png.flaticon.com/512/2282/2282303.png"><p>Proibido Fumar</p></div>
-            <div class="card" onclick="abrirLeitura(this, 15)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgBi1qh3N2iiNIUy0ldUrtAU2EQ5Hw55mkvg&s"><p>Faróis Acesos</p></div>
-            <div class="card" onclick="abrirLeitura(this, 16)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQDnVTmorQ6f76Ed4_4G6nRb1tfxgJXBdHtw&s"><p>Coleta Seletiva</p></div>
-            <div class="card" onclick="abrirLeitura(this, 17)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT33kNtg9RjAygWxox7Jhp2tvJBE2-d8RwOGQ&s"><p>Calço nos pneus</p></div>
-            <div class="card" onclick="abrirLeitura(this, 18)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg8CIGLdVC3G1_PDVQzPczRdAhgw1imFOapA&s"><p>Bebidas alcoolicas</p></div>
+            <div class="card" onclick="abrirLeitura(this, 9)" data-texto="Respeite o limite de 20km/h dentro do pátio para evitar atropelamentos e colisões."><img src="https://static.vecteezy.com/system/resources/previews/048/234/438/non_2x/speed-limit-20-round-road-traffic-icon-flat-design-png.png"><p>Velocidade Máxima 20km/h</p></div>
+            <div class="card" onclick="abrirLeitura(this, 10)" data-texto="A sinalização vertical e horizontal deve ser seguida rigorosamente."><img src="https://isinaliza.vtexassets.com/arquivos/ids/186766-800-auto?v=636983773358030000&width=800&height=auto&aspect=true"><p>Respeite as Sinalizações</p></div>
+            <div class="card" onclick="abrirLeitura(this, 11)" data-texto="O uso do cinto de segurança é obrigatório para motoristas e passageiros em movimento."><img src="https://cdn-icons-png.flaticon.com/512/10745/10745527.png"><p>Use Cinto de Segurança</p></div>
+            <div class="card" onclick="abrirLeitura(this, 12)" data-texto="Ao estacionar na doca, é obrigatório o uso de calços de metal ou borracha nas rodas."><img src="https://cdn.awsli.com.br/600x450/2103/2103292/produto/135124146/7913046964.jpg"><p>Uso obrigatório de Calços</p></div>
+            <div class="card" onclick="abrirLeitura(this, 13)" data-texto="Não é permitido circular nas dependências de boné, regata, bermuda ou chinelo."><img src="https://images.tcdn.com.br/img/img_prod/723720/proibido_entrar_neste_ambiente_vestindo_bon_berm_1_20250723110848_510cb1d87a53.jpg"><p>Proibido Boné, Regata, Bermudas e Chinelo</p></div>
+            <div class="card" onclick="abrirLeitura(this, 14)" data-texto="Fumar é permitido apenas nos fumódromos sinalizados. Proibido em áreas de carga."><img src="https://cdn-icons-png.flaticon.com/512/2282/2282303.png"><p>Proibido Fumar</p></div>
+            <div class="card" onclick="abrirLeitura(this, 15)" data-texto="Mantenha os faróis baixos acesos durante toda a circulação interna."><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgBi1qh3N2iiNIUy0ldUrtAU2EQ5Hw55mkvg&s"><p>Faróis Acesos</p></div>
+            <div class="card" onclick="abrirLeitura(this, 16)" data-texto="Descarte o lixo nos coletores corretos (Papel, Plástico, Metal e Vidro)."><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQDnVTmorQ6f76Ed4_4G6nRb1tfxgJXBdHtw&s"><p>Coleta Seletiva</p></div>
+            <div class="card" onclick="abrirLeitura(this, 17)" data-texto="Confirme se o calço está bem posicionado antes de iniciar a carga/descarga."><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT33kNtg9RjAygWxox7Jhp2tvJBE2-d8RwOGQ&s"><p>Calço nos pneus</p></div>
+            <div class="card" onclick="abrirLeitura(this, 18)" data-texto="É terminantemente proibida a entrada com bebidas alcoólicas ou sob efeito de álcool."><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg8CIGLdVC3G1_PDVQzPczRdAhgw1imFOapA&s"><p>Bebidas alcoolicas</p></div>
         </div>
     </section>
 
@@ -281,71 +283,66 @@ button, .card{ -webkit-tap-highlight-color: transparent; }
 </section>
 
 <section class="section">
-    <h2>Em Caso de Emergência</h2>
-    <ul>
-        <li>Mantenha-se calmo.</li>
-        <li>Não se exponha ao perigo.</li>
-        <li>Dirija-se ao ponto de encontro.</li>
-        <li>Aguarde instruções.</li>
-    </ul>
-</section>
-
-<section class="section">
     <button onclick="tentarAbrirModal()">Confirmo que li as regras</button>
-    <p id="avisoLeitura" style="color: #ff4b2b; margin-top: 10px; display: none; font-weight: bold;">
-        Por favor, abra e confirme todos os cards acima antes de prosseguir!
+    <p id="avisoLeitura" style="color: #ff4b2b; margin-top: 15px; display: none; font-weight: bold;">
+        ⚠️ ATENÇÃO: Você precisa abrir e confirmar os 18 cards acima antes de prosseguir!
     </p>
 </section>
 
 <footer>
     Setores de Apoio: Portaria | Administração | Segurança do Trabalho
     <br><br>
-    <div><a href="https://www.allsecti.xyz" target="_blank">AllSec TI, Versão 1.5</a></div>
+    <div><a href="https://www.allsecti.xyz" target="_blank">AllSec TI, Versão 1.3 teste</a></div>
 </footer>
 
 <div class="modal-leitura" id="modalLeitura">
     <div class="modal-leitura-content">
-        <h3 id="regraTitulo">Regra</h3>
-        <p style="margin: 15px 0; font-size: 18px; color: #333;">Leia aqui</p>
+        <h3 id="regraTitulo" style="color: #203a43; border-bottom: 2px solid #00c6ff; padding-bottom: 10px;">Título</h3>
+        <p id="regraDescricao" style="margin: 20px 0; font-size: 16px; color: #444; line-height: 1.5; text-align: left;">Descrição da regra...</p>
         <label class="checkbox-leitura">
             <input type="checkbox" id="checkLeitura" onclick="confirmarLeitura()">
-            Entendido / Fechar
+            Li e compreendi esta regra
         </label>
     </div>
 </div>
 
 <div class="modal" id="modalFormulario">
     <div class="modal-content">
-        <h3>Confirmação de Leitura</h3>
+        <h3>Confirmação Final</h3>
+        <p style="font-size: 14px; margin-bottom: 15px;">Preencha os dados para gerar seu comprovante.</p>
         <input type="text" id="nome" placeholder="Nome Completo">
         <input type="text" id="cpf" placeholder="CPF">
         <input type="text" id="placa" placeholder="Placa do Veículo">
-        <button onclick="gerarCertificado()">OK</button>
+        <button onclick="gerarCertificado()">GERAR CERTIFICADO</button>
     </div>
 </div>
 
 <script>
-// Sistema de Controle de Leitura
 const totalCards = 18;
 let cardsLidos = new Set();
 let cardAtualElemento = null;
 let cardAtualId = null;
 
-const cards = document.querySelectorAll('.card');
-
-window.addEventListener('scroll',()=>{
-    cards.forEach(card=>{
-        const top = card.getBoundingClientRect().top;
-        if(top < window.innerHeight - 50){
-            card.classList.add('show');
-        }
+// Animação de entrada
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting) entry.target.classList.add('show');
     });
-});
+}, { threshold: 0.1 });
 
+document.querySelectorAll('.card').forEach(card => observer.observe(card));
+
+// Função para abrir o "Leia aqui" individual
 function abrirLeitura(elemento, id) {
     cardAtualElemento = elemento;
     cardAtualId = id;
-    document.getElementById("regraTitulo").innerText = elemento.querySelector('p').innerText;
+    
+    // Pega o título do <p> e o texto do atributo data-texto
+    const titulo = elemento.querySelector('p').innerText;
+    const descricao = elemento.getAttribute('data-texto');
+
+    document.getElementById("regraTitulo").innerText = titulo;
+    document.getElementById("regraDescricao").innerText = descricao;
     document.getElementById("checkLeitura").checked = false;
     document.getElementById("modalLeitura").style.display = "flex";
 }
@@ -357,7 +354,6 @@ function confirmarLeitura() {
         
         setTimeout(() => {
             document.getElementById("modalLeitura").style.display = "none";
-            // Esconde o aviso se ele estiver aparecendo
             if(cardsLidos.size === totalCards) {
                 document.getElementById("avisoLeitura").style.display = "none";
             }
@@ -368,14 +364,13 @@ function confirmarLeitura() {
 function tentarAbrirModal() {
     if(cardsLidos.size < totalCards) {
         document.getElementById("avisoLeitura").style.display = "block";
-        window.scrollTo({ top: document.querySelector('.grid').offsetTop - 100, behavior: 'smooth' });
-        alert("Atenção: Você precisa abrir todos os " + totalCards + " cards e marcar o 'Entendido' em cada um antes de confirmar.");
+        alert(`Faltam ${totalCards - cardsLidos.size} cards para ler. Por favor, confirme todos.`);
+        window.scrollTo({ top: document.querySelector('.grid').offsetTop - 50, behavior: 'smooth' });
     } else {
         document.getElementById("modalFormulario").style.display = "flex";
     }
 }
 
-// Gerar certificado
 async function gerarCertificado(){
     const nome = document.getElementById("nome").value;
     const cpf = document.getElementById("cpf").value;
@@ -390,9 +385,8 @@ async function gerarCertificado(){
     const doc = new jsPDF();
     const data = new Date().toLocaleString();
 
-    const conteudoQR = `CERTIFICADO INTERLOG\nNome: ${nome}\nCPF: ${cpf}\nPlaca: ${placa}\nData: ${data}`;
-
     try {
+        const conteudoQR = `INTERLOG CERT\nNome: ${nome}\nCPF: ${cpf}\nPlaca: ${placa}\nData: ${data}`;
         const urlQR = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(conteudoQR);
         const response = await fetch(urlQR);
         const blob = await response.blob();
@@ -403,20 +397,18 @@ async function gerarCertificado(){
             doc.setFontSize(18);
             doc.text("CERTIFICADO DE CONCORDANCIA", 105, 30, null, null, "center");
             doc.setFontSize(12);
-            doc.text("A INTERLOG SOLUCOES LOGISTICAS certifica que:", 20, 60);
-            doc.text(nome, 20, 70);
+            doc.text(`Nome: ${nome}`, 20, 70);
             doc.text(`CPF: ${cpf}`, 20, 85);
             doc.text(`Placa: ${placa}`, 20, 95);
-            doc.text("Declara ter lido e concordado com todas as regras.", 20, 115);
+            doc.text(`Data: ${data}`, 20, 105);
+            doc.text("Declarou ciência de todas as normas de segurança.", 20, 125);
             doc.addImage(base64data, "PNG", 150, 60, 40, 40);
             doc.save(`Certificado_${nome}.pdf`);
             document.getElementById("modalFormulario").style.display = "none";
             alert("Certificado gerado com sucesso!");
         };
         reader.readAsDataURL(blob);
-    } catch(error){
-        alert("Erro ao gerar certificado.");
-    }
+    } catch(e) { alert("Erro ao gerar certificado."); }
 }
 </script>
 </body>
